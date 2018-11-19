@@ -1,0 +1,23 @@
+%h1 Exits
+
+=link_to "New Exit", new_exit_path
+
+%h3 All Exits
+
+%table{border: 1}
+  %tbody
+    %tr
+      %td Name
+      %td Description
+      %td Key
+      %td Linked To
+      %td Actions
+    - @exits.each do |e|
+      %tr
+        %td= e.room.name
+        %td= link_to e.description, exit_path(e.id)
+        %td= e.key
+        %td= e.linked_room.name
+        %td
+          = link_to "Edit", edit_exit_path(e.id)
+          = link_to "Delete", exit_path(e.id), method: :delete

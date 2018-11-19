@@ -1,0 +1,18 @@
+%p
+  Desc:
+  = @exit.description
+
+%p
+  Key:
+  = @exit.key
+
+%p
+  Links
+  = link_to @exit.room.name, room_path(@exit.room)
+  to
+  = link_to @exit.linked_room.name, room_path(@exit.linked_room)
+
+%p
+  = link_to "Index", exits_path
+  = link_to "Edit", edit_exit_path(@exit)
+  = link_to "Delete", exit_path(@exit), method: :delete

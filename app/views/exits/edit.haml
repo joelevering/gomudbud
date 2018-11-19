@@ -1,0 +1,16 @@
+= form_for(@exit) do |f|
+  = f.label :description
+  = f.text_field :description, rows: 30
+
+  = f.label :key
+  = f.text_field :key
+
+  = f.label :room
+  - room_options = options_from_collection_for_select(Room.all, "id", "name")
+  = f.select :room_id, room_options
+
+  = f.label :linked_room
+  - room_options = options_from_collection_for_select(Room.all, "id", "name")
+  = f.select :linked_room_id, room_options
+
+  = f.submit

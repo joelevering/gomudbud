@@ -9,11 +9,11 @@
     %tr
       %td Name
       %td Description
-      %td
-      %td
+      %td Actions
     - @rooms.each do |r|
       %tr
         %td= link_to r.name, room_path(r.id)
         %td= r.description
-        %td= link_to "Edit", edit_room_path(r.id)
-        %td= link_to "Delete", room_path(r.id), method: :delete
+        %td
+          = link_to "Edit", edit_room_path(r.id)
+          = link_to "Delete", room_path(r.id), method: :delete
