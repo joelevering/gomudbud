@@ -1,0 +1,10 @@
+%h1= @room.name
+
+%h3 Description:
+%p
+  = @room.description
+
+%p
+  = link_to "Index", rooms_path
+  = link_to "Edit", edit_room_path(@room)
+  = link_to "Delete", room_path(@room), method: :delete

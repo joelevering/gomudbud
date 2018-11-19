@@ -1,0 +1,19 @@
+%h1 Rooms
+
+=link_to "New Room", new_room_path
+
+%h3 All Rooms
+
+%table{border: 1}
+  %tbody
+    %tr
+      %td Name
+      %td Description
+      %td
+      %td
+    - @rooms.each do |r|
+      %tr
+        %td= link_to r.name, room_path(r.id)
+        %td= r.description
+        %td= link_to "Edit", edit_room_path(r.id)
+        %td= link_to "Delete", room_path(r.id), method: :delete
