@@ -1,8 +1,26 @@
 %h1= @room.name
 
-%h3 Description:
 %p
+  Description:
   = @room.description
+
+%p
+  %h4 Exits:
+  %table{border: 1}
+    %tbody
+      %tr
+        %td Description
+        %td Key
+        %td Linked To
+        %td Actions
+      - @room.exits.each do |e|
+        %tr
+          %td= link_to e.description, exit_path(e.id)
+          %td= e.key
+          %td= link_to e.linked_room.name, room_path(e.linked_room_id)
+          %td
+            = link_to "Edit", edit_exit_path(e.id)
+            = link_to "Delete", exit_path(e.id), method: :delete
 
 %p
   = link_to "Index", rooms_path

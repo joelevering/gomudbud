@@ -21,6 +21,42 @@
   = link_to @npc.room.name, room_path(@npc.room)
 
 %p
+  %h4 Behaviors:
+  %table{border: 1}
+    %tbody
+      %tr
+        %td Trigger
+        %td Actions
+        %td Chance
+        %td
+      - @npc.behaviors.each do |b|
+        %tr
+          %td= b.trigger
+          %td= b.actions
+          %td= b.chance
+          %td
+            = link_to "Edit", edit_behavior_path(b.id)
+            = link_to "Delete", behavior_path(b.id), method: :delete
+  = link_to "Add Behavior", new_behavior_path
+
+%p
+  %h4 Combat Behaviors:
+  %table{border: 1}
+    %tbody
+      %tr
+        %td Skill
+        %td Chance
+        %td Actions
+      - @npc.combat_behaviors.each do |cb|
+        %tr
+          %td= cb.skill_name
+          %td= cb.chance
+          %td
+            = link_to "Edit", edit_combat_behavior_path(cb.id)
+            = link_to "Delete", combat_behavior_path(cb.id), method: :delete
+  = link_to "Add Cmb Behavior", new_combat_behavior_path
+
+%p
   = link_to "Index", npcs_path
   = link_to "Edit", edit_npc_path(@npc)
   = link_to "Delete", npc_path(@npc), method: :delete
