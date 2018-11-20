@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   resources :exits
   resources :npcs
   resources :behaviors
+  resources :combat_behaviors
   # resources :players
 end

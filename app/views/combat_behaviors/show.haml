@@ -1,0 +1,16 @@
+%p
+  Skill:
+  = @combat_behavior.skill_name
+
+%p
+  Chance:
+  = @combat_behavior.chance
+
+%p
+  NPC:
+  = link_to @combat_behavior.npc.name, npc_path(@combat_behavior.npc_id)
+
+%p
+  = link_to "Index", combat_behaviors_path
+  = link_to "Edit", edit_combat_behavior_path(@combat_behavior)
+  = link_to "Delete", combat_behavior_path(@combat_behavior), method: :delete

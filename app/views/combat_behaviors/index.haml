@@ -1,0 +1,21 @@
+%h1 Combat Behaviors
+
+=link_to "New Combat Behavior", new_combat_behavior_path
+
+%h3 All Combat Behaviors
+
+%table{border: 1}
+  %tbody
+    %tr
+      %td NPC
+      %td Skill
+      %td Chance
+      %td
+    - @combat_behaviors.each do |b|
+      %tr
+        %td= link_to b.npc.name, npc_path(b.npc_id)
+        %td= b.skill_name
+        %td= b.chance
+        %td
+          = link_to "Edit", edit_combat_behavior_path(b.id)
+          = link_to "Delete", combat_behavior_path(b.id), method: :delete
