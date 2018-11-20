@@ -1,0 +1,26 @@
+%h3= @npc.name
+
+%p
+  Class name:
+  = @npc.class_name
+
+%p
+  Desc:
+  = @npc.description
+
+%p
+  Level:
+  = @npc.level
+
+%p
+  Exp:
+  = @npc.exp
+
+%p
+  Room:
+  = link_to @npc.room.name, room_path(@npc.room)
+
+%p
+  = link_to "Index", npcs_path
+  = link_to "Edit", edit_npc_path(@npc)
+  = link_to "Delete", npc_path(@npc), method: :delete

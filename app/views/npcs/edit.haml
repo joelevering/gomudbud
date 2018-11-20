@@ -1,0 +1,26 @@
+= form_for(@npc) do |f|
+  %p
+    = f.label :name
+    = f.text_field :name
+
+    = f.label :class_name
+    = f.text_field :class_name
+
+  %p
+    = f.label :level
+    = f.number_field :level
+
+    = f.label :exp
+    = f.number_field :exp
+
+  %p
+    = f.label :description
+    = f.text_field :description, size: 100
+
+  %p
+    = f.label :room
+    - room_options = options_from_collection_for_select(Room.all, "id", "name")
+    = f.select :room_id, room_options
+
+  %p
+    = f.submit

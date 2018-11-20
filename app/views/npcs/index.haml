@@ -1,0 +1,27 @@
+%h1 Npcs
+
+=link_to "New Npc", new_npc_path
+
+%h3 All Npcs
+
+%table{border: 1}
+  %tbody
+    %tr
+      %td Name
+      %td Class Name
+      %td Description
+      %td Level
+      %td Exp
+      %td Room
+      %td Actions
+    - @npcs.each do |n|
+      %tr
+        %td= link_to n.name, npc_path(n.id)
+        %td= n.class_name
+        %td= n.description
+        %td= n.level
+        %td= n.exp
+        %td= n.room.name
+        %td
+          = link_to "Edit", edit_npc_path(n.id)
+          = link_to "Delete", npc_path(n.id), method: :delete
