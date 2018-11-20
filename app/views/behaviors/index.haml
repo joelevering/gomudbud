@@ -1,0 +1,23 @@
+%h1 Behaviors
+
+=link_to "New Behavior", new_behavior_path
+
+%h3 All Behaviors
+
+%table{border: 1}
+  %tbody
+    %tr
+      %td NPC
+      %td Trigger
+      %td Actions
+      %td Chance
+      %td
+    - @behaviors.each do |b|
+      %tr
+        %td= link_to b.npc.name, npc_path(b.npc_id)
+        %td= b.trigger
+        %td= b.actions
+        %td= b.chance
+        %td
+          = link_to "Edit", edit_behavior_path(b.id)
+          = link_to "Delete", behavior_path(b.id), method: :delete

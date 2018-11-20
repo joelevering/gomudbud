@@ -1,0 +1,20 @@
+%p
+  Trigger:
+  = @behavior.trigger
+
+%p
+  Actions:
+  = @behavior.actions
+
+%p
+  Chance:
+  = @behavior.chance
+
+%p
+  NPC:
+  = link_to @behavior.npc.name, npc_path(@behavior.npc_id)
+
+%p
+  = link_to "Index", behaviors_path
+  = link_to "Edit", edit_behavior_path(@behavior)
+  = link_to "Delete", behavior_path(@behavior), method: :delete
