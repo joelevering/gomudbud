@@ -10,11 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_19_205125) do
+ActiveRecord::Schema.define(version: 2018_11_20_153517) do
 
   create_table "behaviors", force: :cascade do |t|
     t.string "trigger"
     t.string "actions"
+    t.float "chance"
+    t.integer "npc_id"
+  end
+
+  create_table "combat_behaviors", force: :cascade do |t|
+    t.string "skill_name"
     t.float "chance"
     t.integer "npc_id"
   end
