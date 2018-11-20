@@ -1,0 +1,24 @@
+- behavior = Behavior.find(params[:behavior_id])
+
+%p
+  %b Behavior for:
+  = behavior.npc.name
+
+%p
+  %b Trigger:
+  = behavior.trigger
+
+= form_for(@behavior_action) do |f|
+  %p
+    = f.label :action
+    = f.text_field :action
+
+  %p
+    = f.label :payload
+    = f.text_field :payload, size: 100
+
+  %p
+    = f.hidden_field :behavior_id, value: params[:behavior_id]
+
+  %p
+    = f.submit

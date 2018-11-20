@@ -10,11 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_20_153517) do
+ActiveRecord::Schema.define(version: 2018_11_20_212005) do
+
+  create_table "behavior_actions", force: :cascade do |t|
+    t.string "action"
+    t.string "payload"
+    t.integer "behavior_id"
+  end
 
   create_table "behaviors", force: :cascade do |t|
     t.string "trigger"
-    t.string "actions"
     t.float "chance"
     t.integer "npc_id"
   end

@@ -1,0 +1,20 @@
+%p
+  %b Behavior for:
+  = link_to @behavior_action.behavior.npc.name, npc_path(@behavior_action.behavior.npc_id)
+
+%p
+  %b Trigger:
+  = link_to @behavior_action.behavior.trigger, behavior_path(@behavior_action.behavior_id)
+
+%p
+  Action:
+  = @behavior_action.action
+
+%p
+  Payload:
+  = @behavior_action.payload
+
+%p
+  = link_to "Index", behavior_actions_path
+  = link_to "Edit", edit_behavior_action_path(@behavior_action)
+  = link_to "Delete", behavior_action_path(@behavior_action), method: :delete

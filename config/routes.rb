@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   resources :rooms
   resources :exits
   resources :npcs
-  resources :behaviors
+  resources :behaviors do
+    resources :actions, controller: "behavior_actions"
+  end
   resources :combat_behaviors
   # resources :players
 end

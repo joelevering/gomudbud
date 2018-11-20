@@ -32,7 +32,9 @@
       - @npc.behaviors.each do |b|
         %tr
           %td= b.trigger
-          %td= b.actions
+          %td
+            - b.actions.each do |ba|
+              = link_to ba.action, behavior_action_path(ba, behavior_id: b.id)
           %td= b.chance
           %td
             = link_to "Edit", edit_behavior_path(b.id)
