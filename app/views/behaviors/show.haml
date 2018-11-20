@@ -4,7 +4,20 @@
 
 %p
   Actions:
-  = @behavior.actions
+  %table{border: 1}
+    %tbody
+      %tr
+        %td Action
+        %td Payload
+        %td
+      - @behavior.actions.each do |ba|
+        %tr
+          %td= link_to ba.action, behavior_action_path(ba, behavior_id: @behavior.id)
+          %td= ba.payload
+          %td
+            = link_to "Edit", edit_behavior_action_path(ba.id, behavior_id: @behavior.id)
+            = link_to "Delete", behavior_action_path(ba.id, behavior_id: @behavior.id), method: :delete
+  = link_to "Create Action", new_behavior_action_path(@behavior)
 
 %p
   Chance:

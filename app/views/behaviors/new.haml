@@ -1,11 +1,7 @@
 = form_for(@behavior) do |f|
   %p
     = f.label :trigger
-    = f.text_field :trigger
-
-  %p
-    = f.label :actions
-    = f.text_field :actions, size: 100
+    = f.select :trigger, options_for_select(Behavior::POSSIBLE_TRIGGERS)
 
   %p
     = f.label :chance
