@@ -1,24 +1,7 @@
-# README
+# TODO
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Show behaviors and combat behaviors on NPC show page
+* Research "actions" string alternative for behaviors
+* Hardcode list of triggers for behaviors
+* Add skills to DB? Would make picking them easier, could also make adding classes easier
+* Spot check the DB
