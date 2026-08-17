@@ -1,0 +1,2 @@
+module CombatBehaviorsHelper
+end

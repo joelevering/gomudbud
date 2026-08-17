@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  npc: one
+  skill_name: MyString
+  chance: 1.5
+
+two:
+  npc: two
+  skill_name: MyString
+  chance: 1.5

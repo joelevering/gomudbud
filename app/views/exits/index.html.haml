@@ -1,0 +1,13 @@
+%p{style: "color: green"}= notice
+
+- content_for :title, "Exits"
+
+%h1 Exits
+
+%div{id: "exits"}
+  - @exits.each do |exit|
+    = render exit
+    %p
+      = link_to "Show this exit", exit
+
+= link_to "New exit", new_exit_path

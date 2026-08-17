@@ -1,0 +1,10 @@
+%p{style: "color: green"}= notice
+
+= render @exit
+
+%div
+  = link_to "Edit this exit", edit_exit_path(@exit)
+  |
+  = link_to "Back to exits", exits_path
+
+  = button_to "Destroy this exit", @exit, method: :delete

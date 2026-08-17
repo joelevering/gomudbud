@@ -1,0 +1,27 @@
+%p{style: "color: green"}= notice
+
+= render @behavior
+
+%div
+  %strong Actions:
+  %table{border: 1}
+    %tbody
+      %tr
+        %td Action
+        %td Payload
+        %td
+      - @behavior.actions.each do |ba|
+        %tr
+          %td= link_to ba.action, behavior_action_path(@behavior, ba)
+          %td= ba.payload
+          %td
+            = link_to "Edit", edit_behavior_action_path(@behavior, ba)
+            = button_to "Delete", behavior_action_path(@behavior, ba), method: :delete
+  = link_to "Create Action", new_behavior_action_path(@behavior)
+
+%div
+  = link_to "Edit this behavior", edit_behavior_path(@behavior)
+  |
+  = link_to "Back to behaviors", behaviors_path
+
+  = button_to "Destroy this behavior", @behavior, method: :delete

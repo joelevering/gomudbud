@@ -1,0 +1,10 @@
+%p{style: "color: green"}= notice
+
+= render @npc
+
+%div
+  = link_to "Edit this npc", edit_npc_path(@npc)
+  |
+  = link_to "Back to npcs", npcs_path
+
+  = button_to "Destroy this npc", @npc, method: :delete

@@ -1,4 +1,4 @@
-class Behavior < ActiveRecord::Base
+class Behavior < ApplicationRecord
   POSSIBLE_TRIGGERS = [
     "pc-enters",
     "pc-leaves"

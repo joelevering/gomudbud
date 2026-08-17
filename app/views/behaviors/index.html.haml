@@ -1,0 +1,13 @@
+%p{style: "color: green"}= notice
+
+- content_for :title, "Behaviors"
+
+%h1 Behaviors
+
+%div{id: "behaviors"}
+  - @behaviors.each do |behavior|
+    = render behavior
+    %p
+      = link_to "Show this behavior", behavior
+
+= link_to "New behavior", new_behavior_path

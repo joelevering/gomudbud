@@ -1,0 +1,2 @@
+module BehaviorActionsHelper
+end

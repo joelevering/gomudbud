@@ -1,53 +1,75 @@
 class BehaviorActionsController < ApplicationController
+  before_action :set_behavior
+  before_action :set_behavior_action, only: %i[ show edit update destroy ]
 
+  # GET /behaviors/1/actions or /behaviors/1/actions.json
   def index
-    @behavior_actions = BehaviorAction.all
+    @behavior_actions = @behavior.actions
   end
 
-  def new
-    @behavior_action = BehaviorAction.new
-  end
-
-  def create
-    @behavior_action = BehaviorAction.new(behavior_action_params)
-    if @behavior_action.save
-      redirect_to behavior_action_path(behavior_id: @behavior_action.behavior_id, id: @behavior_action.id), alert: "Behavior Action created successfully."
-    else
-      redirect_to new_behavior_action_path, alert: "Error creating behavior action."
-    end
-  end
-
+  # GET /behaviors/1/actions/1 or /behaviors/1/actions/1.json
   def show
-    @behavior_action = BehaviorAction.find(params[:id])
   end
 
+  # GET /behaviors/1/actions/new
+  def new
+    @behavior_action = @behavior.actions.build
+  end
+
+  # GET /behaviors/1/actions/1/edit
   def edit
-    @behavior_action = BehaviorAction.find(params[:id])
   end
 
-  def update
-    @behavior_action = BehaviorAction.find(params[:id])
+  # POST /behaviors/1/actions or /behaviors/1/actions.json
+  def create
+    @behavior_action = @behavior.actions.build(behavior_action_params)
 
-    if @behavior_action.update!(behavior_action_params)
-      redirect_to @behavior_action, alert: "Behavior Action created successfully."
-    else
-      redirect_to edit_behavior_action_path(@behavior_action), alert: "Error creating behavior action."
+    respond_to do |format|
+      if @behavior_action.save
+        format.html { redirect_to behavior_action_path(@behavior, @behavior_action), notice: "Behavior action was successfully created." }
+        format.json { render :show, status: :created, location: behavior_action_path(@behavior, @behavior_action) }
+      else
+        format.html { render :new, status: :unprocessable_content }
+        format.json { render json: @behavior_action.errors, status: :unprocessable_content }
+      end
     end
   end
 
-  def destroy
-    @behavior_action = BehaviorAction.find(params[:id])
+  # PATCH/PUT /behaviors/1/actions/1 or /behaviors/1/actions/1.json
+  def update
+    respond_to do |format|
+      if @behavior_action.update(behavior_action_params)
+        format.html { redirect_to behavior_action_path(@behavior, @behavior_action), notice: "Behavior action was successfully updated.", status: :see_other }
+        format.json { render :show, status: :ok, location: behavior_action_path(@behavior, @behavior_action) }
+      else
+        format.html { render :edit, status: :unprocessable_content }
+        format.json { render json: @behavior_action.errors, status: :unprocessable_content }
+      end
+    end
+  end
 
-    if @behavior_action.destroy!
-      redirect_to behavior_actions_path
-    else
-      redirect_to behavior_action_path(@behavior_action)
+  # DELETE /behaviors/1/actions/1 or /behaviors/1/actions/1.json
+  def destroy
+    @behavior_action.destroy!
+
+    respond_to do |format|
+      format.html { redirect_to behavior_actions_path(@behavior), notice: "Behavior action was successfully destroyed.", status: :see_other }
+      format.json { head :no_content }
     end
   end
 
   private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_behavior
+      @behavior = Behavior.find(params[:behavior_id])
+    end
 
-  def behavior_action_params
-    params.require(:behavior_action).permit(:action, :payload, :behavior_id)
-  end
+    def set_behavior_action
+      @behavior_action = @behavior.actions.find(params.expect(:id))
+    end
+
+    # Only allow a list of trusted parameters through.
+    def behavior_action_params
+      params.expect(behavior_action: [ :action, :payload ])
+    end
 end

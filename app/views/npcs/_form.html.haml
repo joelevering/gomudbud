@@ -1,0 +1,35 @@
+= form_with(model: npc) do |form|
+  - if npc.errors.any?
+    %div{style: "color: red"}
+      %h2= "#{pluralize(npc.errors.count, "error")} prohibited this npc from being saved:"
+
+      %ul
+        - npc.errors.each do |error|
+          %li= error.full_message
+
+  %div
+    = form.label :room_id, style: "display: block"
+    = form.text_field :room_id
+
+  %div
+    = form.label :name, style: "display: block"
+    = form.text_field :name
+
+  %div
+    = form.label :description, style: "display: block"
+    = form.text_field :description
+
+  %div
+    = form.label :class_name, style: "display: block"
+    = form.text_field :class_name
+
+  %div
+    = form.label :level, style: "display: block"
+    = form.number_field :level
+
+  %div
+    = form.label :exp, style: "display: block"
+    = form.number_field :exp
+
+  %div
+    = form.submit
