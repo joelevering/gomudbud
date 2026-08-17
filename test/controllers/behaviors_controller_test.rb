@@ -16,11 +16,11 @@ class BehaviorsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create behavior" do
-    assert_difference("Behavior.count") do
+    assert_difference("::Behavior.count") do
       post behaviors_url, params: { behavior: { chance: @behavior.chance, npc_id: @behavior.npc_id, trigger: @behavior.trigger } }
     end
 
-    assert_redirected_to behavior_url(Behavior.last)
+    assert_redirected_to behavior_url(::Behavior.last)
   end
 
   test "should show behavior" do
@@ -39,7 +39,7 @@ class BehaviorsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy behavior" do
-    assert_difference("Behavior.count", -1) do
+    assert_difference("::Behavior.count", -1) do
       delete behavior_url(@behavior)
     end
 

@@ -13,29 +13,26 @@
 ActiveRecord::Schema[8.1].define(version: 2026_08_17_215541) do
   create_table "behavior_actions", force: :cascade do |t|
     t.string "action"
-    t.integer "behavior_id", null: false
+    t.integer "behavior_id"
     t.datetime "created_at", null: false
     t.string "payload"
     t.datetime "updated_at", null: false
-    t.index ["behavior_id"], name: "index_behavior_actions_on_behavior_id"
   end
 
   create_table "behaviors", force: :cascade do |t|
     t.float "chance"
     t.datetime "created_at", null: false
-    t.integer "npc_id", null: false
+    t.integer "npc_id"
     t.string "trigger"
     t.datetime "updated_at", null: false
-    t.index ["npc_id"], name: "index_behaviors_on_npc_id"
   end
 
   create_table "combat_behaviors", force: :cascade do |t|
     t.float "chance"
     t.datetime "created_at", null: false
-    t.integer "npc_id", null: false
+    t.integer "npc_id"
     t.string "skill_name"
     t.datetime "updated_at", null: false
-    t.index ["npc_id"], name: "index_combat_behaviors_on_npc_id"
   end
 
   create_table "exits", force: :cascade do |t|
@@ -43,9 +40,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_17_215541) do
     t.string "description"
     t.string "key"
     t.integer "linked_room_id"
-    t.integer "room_id", null: false
+    t.integer "room_id"
     t.datetime "updated_at", null: false
-    t.index ["room_id"], name: "index_exits_on_room_id"
   end
 
   create_table "npcs", force: :cascade do |t|
@@ -55,9 +51,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_17_215541) do
     t.integer "exp"
     t.integer "level"
     t.string "name"
-    t.integer "room_id", null: false
+    t.integer "room_id"
     t.datetime "updated_at", null: false
-    t.index ["room_id"], name: "index_npcs_on_room_id"
   end
 
   create_table "rooms", force: :cascade do |t|
@@ -66,10 +61,4 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_17_215541) do
     t.string "name"
     t.datetime "updated_at", null: false
   end
-
-  add_foreign_key "behavior_actions", "behaviors"
-  add_foreign_key "behaviors", "npcs"
-  add_foreign_key "combat_behaviors", "npcs"
-  add_foreign_key "exits", "rooms"
-  add_foreign_key "npcs", "rooms"
 end

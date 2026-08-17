@@ -2,12 +2,12 @@
 
 one:
   room: one
-  linked_room_id: 1
+  linked_room: two
   key: MyString
   description: MyString
 
 two:
   room: two
-  linked_room_id: 1
+  linked_room: one
   key: MyString
   description: MyString

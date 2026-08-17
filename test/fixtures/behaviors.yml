@@ -2,10 +2,10 @@
 
 one:
   npc: one
-  trigger: MyString
+  trigger: pc-enters
   chance: 1.5
 
 two:
   npc: two
-  trigger: MyString
+  trigger: pc-enters
   chance: 1.5
