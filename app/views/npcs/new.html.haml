@@ -1,0 +1,10 @@
+- content_for :title, "New npc"
+
+%h1 New npc
+
+= render "form", npc: @npc
+
+%br
+
+%div
+  = link_to "Back to npcs", npcs_path

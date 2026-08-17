@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  npc: one
+  trigger: pc-enters
+  chance: 1.5
+
+two:
+  npc: two
+  trigger: pc-enters
+  chance: 1.5

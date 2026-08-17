@@ -1,0 +1,15 @@
+%p{style: "color: green"}= notice
+
+- content_for :title, "Behavior actions"
+
+%h1 Behavior actions for #{@behavior.trigger}
+
+%div{id: "behavior_actions"}
+  - @behavior_actions.each do |behavior_action|
+    = render behavior_action
+    %p
+      = link_to "Show this behavior action", behavior_action_path(@behavior, behavior_action)
+
+= link_to "New behavior action", new_behavior_action_path(@behavior)
+%br
+= link_to "Back to behavior", @behavior

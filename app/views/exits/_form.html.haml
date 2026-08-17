@@ -1,0 +1,27 @@
+= form_with(model: exit) do |form|
+  - if exit.errors.any?
+    %div{style: "color: red"}
+      %h2= "#{pluralize(exit.errors.count, "error")} prohibited this exit from being saved:"
+
+      %ul
+        - exit.errors.each do |error|
+          %li= error.full_message
+
+  %div
+    = form.label :room_id, style: "display: block"
+    = form.text_field :room_id
+
+  %div
+    = form.label :linked_room_id, style: "display: block"
+    = form.number_field :linked_room_id
+
+  %div
+    = form.label :key, style: "display: block"
+    = form.text_field :key
+
+  %div
+    = form.label :description, style: "display: block"
+    = form.text_field :description
+
+  %div
+    = form.submit

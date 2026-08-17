@@ -1,0 +1,13 @@
+%p{style: "color: green"}= notice
+
+- content_for :title, "Npcs"
+
+%h1 Npcs
+
+%div{id: "npcs"}
+  - @npcs.each do |npc|
+    = render npc
+    %p
+      = link_to "Show this npc", npc
+
+= link_to "New npc", new_npc_path

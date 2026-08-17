@@ -1,0 +1,10 @@
+%p{style: "color: green"}= notice
+
+= render @behavior_action
+
+%div
+  = link_to "Edit this behavior action", edit_behavior_action_path(@behavior, @behavior_action)
+  |
+  = link_to "Back to behavior actions", behavior_actions_path(@behavior)
+
+  = button_to "Destroy this behavior action", behavior_action_path(@behavior, @behavior_action), method: :delete

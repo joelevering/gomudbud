@@ -1,0 +1,12 @@
+- content_for :title, "Editing behavior action"
+
+%h1 Editing behavior action
+
+= render "form", behavior: @behavior, behavior_action: @behavior_action
+
+%br
+
+%div
+  = link_to "Show this behavior action", behavior_action_path(@behavior, @behavior_action)
+  |
+  = link_to "Back to behavior actions", behavior_actions_path(@behavior)

@@ -1,53 +1,70 @@
 class NpcsController < ApplicationController
+  before_action :set_npc, only: %i[ show edit update destroy ]
 
+  # GET /npcs or /npcs.json
   def index
     @npcs = Npc.all
   end
 
+  # GET /npcs/1 or /npcs/1.json
+  def show
+  end
+
+  # GET /npcs/new
   def new
     @npc = Npc.new
   end
 
+  # GET /npcs/1/edit
+  def edit
+  end
+
+  # POST /npcs or /npcs.json
   def create
     @npc = Npc.new(npc_params)
-    if @npc.save
-      redirect_to @npc, alert: "Npc created successfully."
-    else
-      redirect_to new_npc_path, alert: "Error creating npc."
+
+    respond_to do |format|
+      if @npc.save
+        format.html { redirect_to @npc, notice: "Npc was successfully created." }
+        format.json { render :show, status: :created, location: @npc }
+      else
+        format.html { render :new, status: :unprocessable_content }
+        format.json { render json: @npc.errors, status: :unprocessable_content }
+      end
     end
   end
 
-  def show
-    @npc = Npc.find(params[:id])
-  end
-
-  def edit
-    @npc = Npc.find(params[:id])
-  end
-
+  # PATCH/PUT /npcs/1 or /npcs/1.json
   def update
-    @npc = Npc.find(params[:id])
-
-    if @npc.update!(npc_params)
-      redirect_to @npc, alert: "Npc created successfully."
-    else
-      redirect_to edit_npc_path(@npc), alert: "Error creating npc."
+    respond_to do |format|
+      if @npc.update(npc_params)
+        format.html { redirect_to @npc, notice: "Npc was successfully updated.", status: :see_other }
+        format.json { render :show, status: :ok, location: @npc }
+      else
+        format.html { render :edit, status: :unprocessable_content }
+        format.json { render json: @npc.errors, status: :unprocessable_content }
+      end
     end
   end
 
+  # DELETE /npcs/1 or /npcs/1.json
   def destroy
-    @npc = Npc.find(params[:id])
+    @npc.destroy!
 
-    if @npc.destroy!
-      redirect_to npcs_path
-    else
-      redirect_to npc_path(@npc)
+    respond_to do |format|
+      format.html { redirect_to npcs_path, notice: "Npc was successfully destroyed.", status: :see_other }
+      format.json { head :no_content }
     end
   end
 
   private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_npc
+      @npc = Npc.find(params.expect(:id))
+    end
 
-  def npc_params
-    params.require(:npc).permit(:name, :description, :class_name, :level, :exp, :room_id)
-  end
+    # Only allow a list of trusted parameters through.
+    def npc_params
+      params.expect(npc: [ :room_id, :name, :description, :class_name, :level, :exp ])
+    end
 end

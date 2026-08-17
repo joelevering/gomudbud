@@ -1,0 +1,19 @@
+= form_with(model: behavior_action, url: behavior_action.persisted? ? behavior_action_path(behavior, behavior_action) : behavior_actions_path(behavior)) do |form|
+  - if behavior_action.errors.any?
+    %div{style: "color: red"}
+      %h2= "#{pluralize(behavior_action.errors.count, "error")} prohibited this behavior_action from being saved:"
+
+      %ul
+        - behavior_action.errors.each do |error|
+          %li= error.full_message
+
+  %div
+    = form.label :action, style: "display: block"
+    = form.text_field :action
+
+  %div
+    = form.label :payload, style: "display: block"
+    = form.text_field :payload
+
+  %div
+    = form.submit

@@ -1,0 +1,12 @@
+- content_for :title, "Editing exit"
+
+%h1 Editing exit
+
+= render "form", exit: @exit
+
+%br
+
+%div
+  = link_to "Show this exit", @exit
+  |
+  = link_to "Back to exits", exits_path

@@ -1,53 +1,70 @@
 class ExitsController < ApplicationController
+  before_action :set_exit, only: %i[ show edit update destroy ]
 
+  # GET /exits or /exits.json
   def index
-    @exits = Exit.includes(:room).order("rooms.name")
+    @exits = Exit.all
   end
 
+  # GET /exits/1 or /exits/1.json
+  def show
+  end
+
+  # GET /exits/new
   def new
     @exit = Exit.new
   end
 
+  # GET /exits/1/edit
+  def edit
+  end
+
+  # POST /exits or /exits.json
   def create
     @exit = Exit.new(exit_params)
-    if @exit.save
-      redirect_to @exit, alert: "Exit created successfully."
-    else
-      redirect_to new_exit_path, alert: "Error creating room."
+
+    respond_to do |format|
+      if @exit.save
+        format.html { redirect_to @exit, notice: "Exit was successfully created." }
+        format.json { render :show, status: :created, location: @exit }
+      else
+        format.html { render :new, status: :unprocessable_content }
+        format.json { render json: @exit.errors, status: :unprocessable_content }
+      end
     end
   end
 
-  def show
-    @exit = Exit.find(params[:id])
-  end
-
-  def edit
-    @exit = Exit.find(params[:id])
-  end
-
+  # PATCH/PUT /exits/1 or /exits/1.json
   def update
-    @exit = Exit.find(params[:id])
-
-    if @exit.update!(exit_params)
-      redirect_to @exit, alert: "Exit created successfully."
-    else
-      redirect_to edit_exit_path(@exit), alert: "Error creating exit."
+    respond_to do |format|
+      if @exit.update(exit_params)
+        format.html { redirect_to @exit, notice: "Exit was successfully updated.", status: :see_other }
+        format.json { render :show, status: :ok, location: @exit }
+      else
+        format.html { render :edit, status: :unprocessable_content }
+        format.json { render json: @exit.errors, status: :unprocessable_content }
+      end
     end
   end
 
+  # DELETE /exits/1 or /exits/1.json
   def destroy
-    @exit = Exit.find(params[:id])
+    @exit.destroy!
 
-    if @exit.destroy!
-      redirect_to exits_path
-    else
-      redirect_to exit_path(@exit)
+    respond_to do |format|
+      format.html { redirect_to exits_path, notice: "Exit was successfully destroyed.", status: :see_other }
+      format.json { head :no_content }
     end
   end
 
   private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_exit
+      @exit = Exit.find(params.expect(:id))
+    end
 
-  def exit_params
-    params.require(:exit).permit(:key, :description, :room_id, :linked_room_id)
-  end
+    # Only allow a list of trusted parameters through.
+    def exit_params
+      params.expect(exit: [ :room_id, :linked_room_id, :key, :description ])
+    end
 end

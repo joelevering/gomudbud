@@ -1,0 +1,10 @@
+- content_for :title, "New combat behavior"
+
+%h1 New combat behavior
+
+= render "form", combat_behavior: @combat_behavior
+
+%br
+
+%div
+  = link_to "Back to combat behaviors", combat_behaviors_path

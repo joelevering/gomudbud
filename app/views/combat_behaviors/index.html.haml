@@ -1,0 +1,13 @@
+%p{style: "color: green"}= notice
+
+- content_for :title, "Combat behaviors"
+
+%h1 Combat behaviors
+
+%div{id: "combat_behaviors"}
+  - @combat_behaviors.each do |combat_behavior|
+    = render combat_behavior
+    %p
+      = link_to "Show this combat behavior", combat_behavior
+
+= link_to "New combat behavior", new_combat_behavior_path

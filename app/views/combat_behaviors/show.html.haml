@@ -1,0 +1,10 @@
+%p{style: "color: green"}= notice
+
+= render @combat_behavior
+
+%div
+  = link_to "Edit this combat behavior", edit_combat_behavior_path(@combat_behavior)
+  |
+  = link_to "Back to combat behaviors", combat_behaviors_path
+
+  = button_to "Destroy this combat behavior", @combat_behavior, method: :delete

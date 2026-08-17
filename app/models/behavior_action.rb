@@ -1,3 +1,3 @@
-class BehaviorAction < ActiveRecord::Base
+class BehaviorAction < ApplicationRecord
   belongs_to :behavior
 end

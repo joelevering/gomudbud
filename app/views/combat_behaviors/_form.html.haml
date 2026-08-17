@@ -1,0 +1,23 @@
+= form_with(model: combat_behavior) do |form|
+  - if combat_behavior.errors.any?
+    %div{style: "color: red"}
+      %h2= "#{pluralize(combat_behavior.errors.count, "error")} prohibited this combat_behavior from being saved:"
+
+      %ul
+        - combat_behavior.errors.each do |error|
+          %li= error.full_message
+
+  %div
+    = form.label :npc_id, style: "display: block"
+    = form.text_field :npc_id
+
+  %div
+    = form.label :skill_name, style: "display: block"
+    = form.text_field :skill_name
+
+  %div
+    = form.label :chance, style: "display: block"
+    = form.text_field :chance
+
+  %div
+    = form.submit
