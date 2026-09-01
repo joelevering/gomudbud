@@ -1,0 +1,11 @@
+.rail{data: { controller: "rail-filter" }}
+  .rail-search
+    %input{placeholder: "Filter rooms…", data: { rail_filter_target: "input", action: "input->rail-filter#filter" }}
+  .rail-list
+    - @rooms.group_by(&:area).sort.each do |area, area_rooms|
+      .rail-group{data: { rail_filter_target: "group" }}
+        .rail-group-label= area
+        - area_rooms.sort_by(&:id).each do |room|
+          = link_to edit_room_path(room), class: "rail-item#{' selected' if @room && @room.id == room.id}", data: { turbo_frame: "editor-panel", rail_filter_target: "item", search_text: "#{room.id} #{room.name}".downcase } do
+            %span.rid= "##{room.id}"
+            %span.rname= room.name.to_s.split(" - ")[1..].join(" - ").presence || room.name

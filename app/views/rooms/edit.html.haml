@@ -1,12 +1,12 @@
-- content_for :title, "Editing room"
+- content_for :title, "Editing #{@room.name}"
 
-%h1 Editing room
+= render "header"
 
-= render "form", room: @room
-
-%br
-
-%div
-  = link_to "Show this room", @room
-  |
-  = link_to "Back to rooms", rooms_path
+.body-grid
+  = render "rail"
+  = turbo_frame_tag "editor-panel" do
+    %main
+      .editor-wrap
+        - if notice.present?
+          %p{style: "color: green"}= notice
+        = render "form", room: @room

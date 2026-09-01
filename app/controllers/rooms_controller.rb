@@ -1,13 +1,16 @@
 class RoomsController < ApplicationController
-  before_action :set_room, only: %i[ show edit update destroy ]
+  NEW_ROOM_DEFAULTS = { name: "New Area - Untitled Room", description: "" }.freeze
 
-  # GET /rooms or /rooms.json
+  before_action :set_room, only: %i[ show edit update destroy ]
+  before_action :set_rooms, only: %i[ index edit new create update map ]
+
+  # GET /rooms
   def index
-    @rooms = Room.all
   end
 
-  # GET /rooms/1 or /rooms/1.json
+  # GET /rooms/1
   def show
+    redirect_to edit_room_path(@room)
   end
 
   # GET /rooms/new
@@ -15,56 +18,79 @@ class RoomsController < ApplicationController
     @room = Room.new
   end
 
-  # GET /rooms/1/edit
+  # GET /rooms/1/edit -- rendered inside the "editor-panel" turbo frame
   def edit
   end
 
-  # POST /rooms or /rooms.json
+  # POST /rooms -- the header's "+ Add room" button posts with no room
+  # params at all, so falls back to NEW_ROOM_DEFAULTS to create something
+  # immediately editable; the /rooms/new form posts real params as usual.
   def create
-    @room = Room.new(room_params)
+    @room = Room.new(room_params.presence || NEW_ROOM_DEFAULTS)
 
-    respond_to do |format|
-      if @room.save
-        format.html { redirect_to @room, notice: "Room was successfully created." }
-        format.json { render :show, status: :created, location: @room }
-      else
-        format.html { render :new, status: :unprocessable_content }
-        format.json { render json: @room.errors, status: :unprocessable_content }
-      end
+    if @room.save
+      redirect_to edit_room_path(@room), notice: "Room created."
+    else
+      render :new, status: :unprocessable_content
     end
   end
 
-  # PATCH/PUT /rooms/1 or /rooms/1.json
+  # PATCH/PUT /rooms/1
   def update
-    respond_to do |format|
-      if @room.update(room_params)
-        format.html { redirect_to @room, notice: "Room was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @room }
-      else
-        format.html { render :edit, status: :unprocessable_content }
-        format.json { render json: @room.errors, status: :unprocessable_content }
-      end
+    if @room.update(room_params)
+      redirect_to edit_room_path(@room), notice: "Room saved."
+    else
+      render :edit, status: :unprocessable_content
     end
   end
 
-  # DELETE /rooms/1 or /rooms/1.json
+  # DELETE /rooms/1
   def destroy
     @room.destroy!
+    redirect_to rooms_path, notice: "Room deleted.", status: :see_other
+  end
 
-    respond_to do |format|
-      format.html { redirect_to rooms_path, notice: "Room was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
-    end
+  # GET /rooms/map -- a minimal projection (not the full RoomExport shape) with
+  # "area" precomputed server-side so the Map tab's JS never has to re-derive
+  # it from the room name itself.
+  def map
+    @rooms_json = @rooms.map { |r|
+      { id: r.id, name: r.name, area: r.area, exits: r.exits.pluck(:linked_room_id).map { |id| { room_id: id } } }
+    }.to_json
+  end
+
+  # GET /rooms/export
+  def export
+    data = RoomExport.call
+    send_data JSON.pretty_generate(data),
+              filename: "rooms.export.json",
+              type: "application/json",
+              disposition: "attachment"
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_room
       @room = Room.find(params.expect(:id))
     end
 
-    # Only allow a list of trusted parameters through.
+    def set_rooms
+      @rooms = Room.all.order(:id)
+    end
+
     def room_params
-      params.expect(room: [ :name, :description ])
+      return {} unless params[:room]
+
+      params.require(:room).permit(
+        :name, :description,
+        exits_attributes: [ :id, :key, :description, :linked_room_id, :_destroy ],
+        npcs_attributes: [
+          :id, :name, :description, :class_name, :level, :exp, :_destroy,
+          behaviors_attributes: [
+            :id, :trigger, :chance, :_destroy,
+            actions_attributes: [ :id, :action, :payload, :_destroy ]
+          ],
+          combat_behaviors_attributes: [ :id, :skill_name, :chance, :_destroy ]
+        ]
+      )
     end
 end

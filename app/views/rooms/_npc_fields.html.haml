@@ -1,0 +1,32 @@
+.row-card.npc.nested-fields
+  .npc-cols
+    %div
+      %span.mini-label NPC ID
+      %div.mini-input.data{style: "background:transparent;border-color:transparent;padding-left:0"}= f.object.persisted? ? "##{f.object.id}" : "new"
+    %div
+      %span.mini-label Class
+      = f.text_field :class_name, class: "mini-input"
+    %div
+      %span.mini-label Character name
+      = f.text_field :name, class: "mini-input"
+  .npc-cols2
+    %div
+      %span.mini-label Description
+      = f.text_field :description, class: "mini-input"
+    %div
+      %span.mini-label Level
+      = f.number_field :level, class: "mini-input data"
+    %div
+      %span.mini-label Exp given
+      = f.number_field :exp, class: "mini-input data"
+
+  = render "nested_fields_section", form: f, association: :behaviors, model_class: Behavior,
+    partial: "behavior_fields", label: "Behavior", add_label: "+ Add behavior", wrapper_class: "npc-sub"
+
+  = render "nested_fields_section", form: f, association: :combat_behaviors, model_class: CombatBehavior,
+    partial: "combat_behavior_fields", label: "Combat behavior", add_label: "+ Add combat behavior", wrapper_class: "npc-sub"
+
+  = f.hidden_field :id if f.object.persisted?
+  = f.hidden_field :_destroy
+  .row-actions{style: "text-align:right;margin-top:9px"}
+    %button.btn.small.danger-ghost{type: "button", data: { action: "nested-fields#remove" }} Remove NPC
