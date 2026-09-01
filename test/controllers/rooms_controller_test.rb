@@ -20,12 +20,12 @@ class RoomsControllerTest < ActionDispatch::IntegrationTest
       post rooms_url, params: { room: { description: @room.description, name: @room.name } }
     end
 
-    assert_redirected_to room_url(Room.last)
+    assert_redirected_to edit_room_url(Room.last)
   end
 
   test "should show room" do
     get room_url(@room)
-    assert_response :success
+    assert_redirected_to edit_room_url(@room)
   end
 
   test "should get edit" do
@@ -35,7 +35,7 @@ class RoomsControllerTest < ActionDispatch::IntegrationTest
 
   test "should update room" do
     patch room_url(@room), params: { room: { description: @room.description, name: @room.name } }
-    assert_redirected_to room_url(@room)
+    assert_redirected_to edit_room_url(@room)
   end
 
   test "should destroy room" do

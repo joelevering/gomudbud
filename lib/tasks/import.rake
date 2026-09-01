@@ -1,5 +1,5 @@
 desc "Import a GoMud rooms.json file into the database (full replace)"
-task :import_rooms, [:path] => :environment do |_t, args|
+task :import_rooms, [ :path ] => :environment do |_t, args|
   path = args[:path] || File.expand_path("../gomud/data/rooms.json", Rails.root)
 
   unless File.exist?(path)
@@ -21,7 +21,7 @@ task :import_rooms, [:path] => :environment do |_t, args|
   dangling = []
   data.each do |r|
     (r["exits"] || []).each do |e|
-      dangling << [r["id"], e["room_id"]] unless room_id_set.include?(e["room_id"])
+      dangling << [ r["id"], e["room_id"] ] unless room_id_set.include?(e["room_id"])
     end
   end
   problems << "dangling exit targets (from_room -> missing_target): #{dangling}" if dangling.any?

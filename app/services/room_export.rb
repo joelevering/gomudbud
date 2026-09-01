@@ -34,7 +34,7 @@ class RoomExport
   def self.export_behavior(behavior)
     {
       "trigger" => behavior.trigger,
-      "actions" => behavior.actions.order(:id).map { |a| [a.action, a.payload] },
+      "actions" => behavior.actions.order(:id).map { |a| [ a.action, a.payload ] },
       "chance" => behavior.chance
     }
   end

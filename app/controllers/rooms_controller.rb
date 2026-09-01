@@ -74,14 +74,14 @@ class RoomsController < ApplicationController
 
       params.require(:room).permit(
         :name, :description,
-        exits_attributes: [:id, :key, :description, :linked_room_id, :_destroy],
+        exits_attributes: [ :id, :key, :description, :linked_room_id, :_destroy ],
         npcs_attributes: [
           :id, :name, :description, :class_name, :level, :exp, :_destroy,
           behaviors_attributes: [
             :id, :trigger, :chance, :_destroy,
-            actions_attributes: [:id, :action, :payload, :_destroy]
+            actions_attributes: [ :id, :action, :payload, :_destroy ]
           ],
-          combat_behaviors_attributes: [:id, :skill_name, :chance, :_destroy]
+          combat_behaviors_attributes: [ :id, :skill_name, :chance, :_destroy ]
         ]
       )
     end
