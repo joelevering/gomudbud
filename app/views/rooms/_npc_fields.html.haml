@@ -1,0 +1,46 @@
+.row-card.npc.nested-fields
+  .npc-cols
+    %div
+      %span.mini-label NPC ID
+      %div.mini-input.data{style: "background:transparent;border-color:transparent;padding-left:0"}= f.object.persisted? ? "##{f.object.id}" : "new"
+    %div
+      %span.mini-label Class
+      = f.text_field :class_name, class: "mini-input"
+    %div
+      %span.mini-label Character name
+      = f.text_field :name, class: "mini-input"
+  .npc-cols2
+    %div
+      %span.mini-label Description
+      = f.text_field :description, class: "mini-input"
+    %div
+      %span.mini-label Level
+      = f.number_field :level, class: "mini-input data"
+    %div
+      %span.mini-label Exp given
+      = f.number_field :exp, class: "mini-input data"
+
+  .npc-sub{data: { controller: "nested-fields" }}
+    .field-label Behavior
+    .rows{data: { nested_fields_target: "target" }}
+      = f.fields_for :behaviors do |bh|
+        = render "behavior_fields", f: bh
+    %template{data: { nested_fields_target: "template" }}
+      = f.fields_for :behaviors, Behavior.new, child_index: "NEW_RECORD" do |bh|
+        = render "behavior_fields", f: bh
+    %button.add-row-btn{type: "button", data: { action: "nested-fields#add" }} + Add behavior
+
+  .npc-sub{data: { controller: "nested-fields" }}
+    .field-label Combat behavior
+    .rows{data: { nested_fields_target: "target" }}
+      = f.fields_for :combat_behaviors do |cb|
+        = render "combat_behavior_fields", f: cb
+    %template{data: { nested_fields_target: "template" }}
+      = f.fields_for :combat_behaviors, CombatBehavior.new, child_index: "NEW_RECORD" do |cb|
+        = render "combat_behavior_fields", f: cb
+    %button.add-row-btn{type: "button", data: { action: "nested-fields#add" }} + Add combat behavior
+
+  = f.hidden_field :id if f.object.persisted?
+  = f.hidden_field :_destroy
+  .row-actions{style: "text-align:right;margin-top:9px"}
+    %button.btn.small.danger-ghost{type: "button", data: { action: "nested-fields#remove" }} Remove NPC

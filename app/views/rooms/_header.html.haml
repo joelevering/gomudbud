@@ -1,0 +1,26 @@
+- content_for :head do
+  %meta{name: "turbo-cache-control", content: "no-cache"}
+
+%header
+  .brand
+    | GoMud
+    %span Room Editor
+  .tabs
+    = link_to "Editor", rooms_path, class: "tab-btn#{' active' unless action_name == 'map'}"
+    = link_to "Map", map_rooms_path, class: "tab-btn#{' active' if action_name == 'map'}"
+  .stats
+    %span
+      %b= @rooms.size
+      rooms
+    %span
+      %b= @rooms.map(&:area).uniq.size
+      areas
+    %span
+      %b= Npc.count
+      npcs
+  .spacer
+  = button_to "+ Add room", rooms_path, method: :post, params: { room: { name: "New Area - Untitled Room", description: "" } }, class: "btn", form: { data: { turbo_frame: "_top" } }
+  = link_to "Export JSON", export_rooms_path, class: "btn primary"
+
+%script#rooms-index-data{type: "application/json"}
+  != @rooms.each_with_object({}) { |r, h| h[r.id] = r.name }.to_json.html_safe

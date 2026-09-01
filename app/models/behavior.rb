@@ -5,7 +5,9 @@ class Behavior < ApplicationRecord
   ]
 
   belongs_to :npc
-  has_many :actions, class_name: "BehaviorAction"
+  has_many :actions, class_name: "BehaviorAction", dependent: :destroy
+
+  accepts_nested_attributes_for :actions, allow_destroy: true
 
   validates_inclusion_of :trigger, in: POSSIBLE_TRIGGERS
 end

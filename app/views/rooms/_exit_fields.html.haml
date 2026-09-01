@@ -1,0 +1,16 @@
+.row-card.exit.nested-fields
+  .exit-cols
+    %div
+      %span.mini-label Target ID
+      = f.number_field :linked_room_id, class: "mini-input data", data: { exit_target_target: "input", action: "input->exit-target#preview" }
+    %div
+      %span.mini-label Key
+      = f.text_field :key, class: "mini-input data"
+    %div
+      %span.mini-label Description
+      = f.text_field :description, class: "mini-input"
+    .row-actions
+      %button.btn.small.danger-ghost{type: "button", data: { action: "nested-fields#remove" }} Remove
+  .target-preview{data: { exit_target_target: "preview" }}
+  = f.hidden_field :id if f.object.persisted?
+  = f.hidden_field :_destroy

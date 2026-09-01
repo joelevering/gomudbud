@@ -1,19 +1,47 @@
-= form_with(model: room) do |form|
+= form_with model: room do |form|
   - if room.errors.any?
-    %div{style: "color: red"}
-      %h2= "#{pluralize(room.errors.count, "error")} prohibited this room from being saved:"
-
+    .row-card{style: "border-color: var(--danger)"}
+      %strong= "#{pluralize(room.errors.count, "error")} prohibited this room from being saved:"
       %ul
         - room.errors.each do |error|
           %li= error.full_message
 
-  %div
-    = form.label :name, style: "display: block"
-    = form.text_field :name
+  .room-head
+    %span.rid-badge= room.persisted? ? "##{room.id}" : "new"
+    = form.text_field :name, class: "room-name-input"
+  %p.room-name-hint
+    Convention: "Area - Subarea" or "Area - Path - Subarea". This drives grouping in the rail and coloring on the Map tab.
 
-  %div
-    = form.label :description, style: "display: block"
-    = form.textarea :description
+  %section.block
+    .field-label Description
+    = form.text_area :description, class: "desc"
 
-  %div
-    = form.submit
+  %section.block{data: { controller: "nested-fields exit-target" }}
+    .field-label
+      | Exits
+      %span.count= room.exits.size
+    .rows{data: { nested_fields_target: "target" }}
+      = form.fields_for :exits do |ex|
+        = render "exit_fields", f: ex
+    %template{data: { nested_fields_target: "template" }}
+      = form.fields_for :exits, Exit.new, child_index: "NEW_RECORD" do |ex|
+        = render "exit_fields", f: ex
+    %button.add-row-btn{type: "button", data: { action: "nested-fields#add" }} + Add exit
+
+  %section.block{data: { controller: "nested-fields" }}
+    .field-label
+      | NPCs
+      %span.count= room.npcs.size
+    .rows{data: { nested_fields_target: "target" }}
+      = form.fields_for :npcs do |np|
+        = render "npc_fields", f: np
+    %template{data: { nested_fields_target: "template" }}
+      = form.fields_for :npcs, Npc.new, child_index: "NEW_RECORD" do |np|
+        = render "npc_fields", f: np
+    %button.add-row-btn{type: "button", data: { action: "nested-fields#add" }} + Add NPC
+
+  = form.submit "Save room", class: "btn primary"
+
+- if room.persisted?
+  .danger-zone
+    = button_to "Delete this room", room, method: :delete, class: "btn small danger-ghost", form: { data: { turbo_confirm: "Delete room ##{room.id} (\"#{room.name}\")? Exits pointing to it from other rooms will be left dangling.", turbo_frame: "_top" } }

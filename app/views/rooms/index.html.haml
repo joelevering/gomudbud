@@ -1,13 +1,10 @@
-%p{style: "color: green"}= notice
-
 - content_for :title, "Rooms"
 
-%h1 Rooms
+= render "header"
 
-%div{id: "rooms"}
-  - @rooms.each do |room|
-    = render room
-    %p
-      = link_to "Show this room", room
-
-= link_to "New room", new_room_path
+.body-grid
+  = render "rail"
+  = turbo_frame_tag "editor-panel", src: (@rooms.any? ? edit_room_path(@rooms.first) : nil) do
+    %main
+      .editor-wrap
+        %p{style: "color: var(--text-faint)"} Loading…

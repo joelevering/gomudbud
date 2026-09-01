@@ -1,0 +1,12 @@
+.row-card.combat-behavior.nested-fields
+  .row-top
+    .grow
+      %span.mini-label Skill
+      = f.text_field :skill_name, class: "mini-input data"
+    .grow
+      %span.mini-label Chance (0-1)
+      = f.number_field :chance, step: 0.1, min: 0, max: 1, class: "mini-input data"
+    .row-actions
+      %button.btn.small.danger-ghost{type: "button", data: { action: "nested-fields#remove" }} Remove
+  = f.hidden_field :id if f.object.persisted?
+  = f.hidden_field :_destroy

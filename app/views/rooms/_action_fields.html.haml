@@ -1,0 +1,12 @@
+.row-card.nested-fields{style: "border-left: 2px solid var(--text-faint)"}
+  .row-top
+    .grow
+      %span.mini-label Action
+      = f.text_field :action, class: "mini-input data", placeholder: "say / emote"
+    .grow
+      %span.mini-label Payload
+      = f.text_field :payload, class: "mini-input"
+    .row-actions
+      %button.btn.small.danger-ghost{type: "button", data: { action: "nested-fields#remove" }} Remove
+  = f.hidden_field :id if f.object.persisted?
+  = f.hidden_field :_destroy
