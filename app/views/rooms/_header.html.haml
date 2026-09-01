@@ -19,8 +19,11 @@
       %b= Npc.count
       npcs
   .spacer
-  = button_to "+ Add room", rooms_path, method: :post, params: { room: { name: "New Area - Untitled Room", description: "" } }, class: "btn", form: { data: { turbo_frame: "_top" } }
+  -# Posts with no room params -- RoomsController#create falls back to NEW_ROOM_DEFAULTS.
+  = button_to "+ Add room", rooms_path, method: :post, class: "btn", form: { data: { turbo_frame: "_top" } }
   = link_to "Export JSON", export_rooms_path, class: "btn primary"
 
+-# Consumed by app/javascript/controllers/exit_target_controller.js for the
+-# live exit-target-name preview in the room edit form.
 %script#rooms-index-data{type: "application/json"}
   != @rooms.each_with_object({}) { |r, h| h[r.id] = r.name }.to_json.html_safe

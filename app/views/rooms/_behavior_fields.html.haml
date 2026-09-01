@@ -9,15 +9,8 @@
     .row-actions
       %button.btn.small.danger-ghost{type: "button", data: { action: "nested-fields#remove" }} Remove
 
-  .npc-sub{data: { controller: "nested-fields" }}
-    .field-label Actions
-    .rows{data: { nested_fields_target: "target" }}
-      = f.fields_for :actions do |ac|
-        = render "action_fields", f: ac
-    %template{data: { nested_fields_target: "template" }}
-      = f.fields_for :actions, BehaviorAction.new, child_index: "NEW_RECORD" do |ac|
-        = render "action_fields", f: ac
-    %button.add-row-btn{type: "button", data: { action: "nested-fields#add" }} + Add action
+  = render "nested_fields_section", form: f, association: :actions, model_class: BehaviorAction,
+    partial: "action_fields", label: "Actions", add_label: "+ Add action", wrapper_class: "npc-sub"
 
   = f.hidden_field :id if f.object.persisted?
   = f.hidden_field :_destroy

@@ -223,7 +223,7 @@ main { flex: 1; overflow-y: auto; min-width: 0; min-height: 0; }
   gap: 8px;
 }
 .field-label .count { color: var(--text-dim); background: var(--panel-2); border-radius: 999px; padding: 1px 7px; font-size: 10px; }
-section.block { margin-bottom: 30px; }
+.block { margin-bottom: 30px; }
 textarea.desc {
   width: 100%;
   min-height: 84px;

@@ -1,4 +1,6 @@
 class RoomsController < ApplicationController
+  NEW_ROOM_DEFAULTS = { name: "New Area - Untitled Room", description: "" }.freeze
+
   before_action :set_room, only: %i[ show edit update destroy ]
   before_action :set_rooms, only: %i[ index edit new create update map ]
 
@@ -20,9 +22,11 @@ class RoomsController < ApplicationController
   def edit
   end
 
-  # POST /rooms
+  # POST /rooms -- the header's "+ Add room" button posts with no room
+  # params at all, so falls back to NEW_ROOM_DEFAULTS to create something
+  # immediately editable; the /rooms/new form posts real params as usual.
   def create
-    @room = Room.new(room_params.presence || { name: "New Area - Untitled Room", description: "" })
+    @room = Room.new(room_params.presence || NEW_ROOM_DEFAULTS)
 
     if @room.save
       redirect_to edit_room_path(@room), notice: "Room created."
@@ -46,9 +50,13 @@ class RoomsController < ApplicationController
     redirect_to rooms_path, notice: "Room deleted.", status: :see_other
   end
 
-  # GET /rooms/map
+  # GET /rooms/map -- a minimal projection (not the full RoomExport shape) with
+  # "area" precomputed server-side so the Map tab's JS never has to re-derive
+  # it from the room name itself.
   def map
-    @rooms_json = RoomExport.call.map { |r| r.slice("id", "name", "exits") }.to_json
+    @rooms_json = @rooms.map { |r|
+      { id: r.id, name: r.name, area: r.area, exits: r.exits.pluck(:linked_room_id).map { |id| { room_id: id } } }
+    }.to_json
   end
 
   # GET /rooms/export

@@ -16,29 +16,12 @@
     .field-label Description
     = form.text_area :description, class: "desc"
 
-  %section.block{data: { controller: "nested-fields exit-target" }}
-    .field-label
-      | Exits
-      %span.count= room.exits.size
-    .rows{data: { nested_fields_target: "target" }}
-      = form.fields_for :exits do |ex|
-        = render "exit_fields", f: ex
-    %template{data: { nested_fields_target: "template" }}
-      = form.fields_for :exits, Exit.new, child_index: "NEW_RECORD" do |ex|
-        = render "exit_fields", f: ex
-    %button.add-row-btn{type: "button", data: { action: "nested-fields#add" }} + Add exit
+  = render "nested_fields_section", form: form, association: :exits, model_class: Exit,
+    partial: "exit_fields", label: "Exits", add_label: "+ Add exit",
+    wrapper_class: "block", extra_controllers: "exit-target"
 
-  %section.block{data: { controller: "nested-fields" }}
-    .field-label
-      | NPCs
-      %span.count= room.npcs.size
-    .rows{data: { nested_fields_target: "target" }}
-      = form.fields_for :npcs do |np|
-        = render "npc_fields", f: np
-    %template{data: { nested_fields_target: "template" }}
-      = form.fields_for :npcs, Npc.new, child_index: "NEW_RECORD" do |np|
-        = render "npc_fields", f: np
-    %button.add-row-btn{type: "button", data: { action: "nested-fields#add" }} + Add NPC
+  = render "nested_fields_section", form: form, association: :npcs, model_class: Npc,
+    partial: "npc_fields", label: "NPCs", add_label: "+ Add NPC", wrapper_class: "block"
 
   = form.submit "Save room", class: "btn primary"
 

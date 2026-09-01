@@ -20,25 +20,11 @@
       %span.mini-label Exp given
       = f.number_field :exp, class: "mini-input data"
 
-  .npc-sub{data: { controller: "nested-fields" }}
-    .field-label Behavior
-    .rows{data: { nested_fields_target: "target" }}
-      = f.fields_for :behaviors do |bh|
-        = render "behavior_fields", f: bh
-    %template{data: { nested_fields_target: "template" }}
-      = f.fields_for :behaviors, Behavior.new, child_index: "NEW_RECORD" do |bh|
-        = render "behavior_fields", f: bh
-    %button.add-row-btn{type: "button", data: { action: "nested-fields#add" }} + Add behavior
+  = render "nested_fields_section", form: f, association: :behaviors, model_class: Behavior,
+    partial: "behavior_fields", label: "Behavior", add_label: "+ Add behavior", wrapper_class: "npc-sub"
 
-  .npc-sub{data: { controller: "nested-fields" }}
-    .field-label Combat behavior
-    .rows{data: { nested_fields_target: "target" }}
-      = f.fields_for :combat_behaviors do |cb|
-        = render "combat_behavior_fields", f: cb
-    %template{data: { nested_fields_target: "template" }}
-      = f.fields_for :combat_behaviors, CombatBehavior.new, child_index: "NEW_RECORD" do |cb|
-        = render "combat_behavior_fields", f: cb
-    %button.add-row-btn{type: "button", data: { action: "nested-fields#add" }} + Add combat behavior
+  = render "nested_fields_section", form: f, association: :combat_behaviors, model_class: CombatBehavior,
+    partial: "combat_behavior_fields", label: "Combat behavior", add_label: "+ Add combat behavior", wrapper_class: "npc-sub"
 
   = f.hidden_field :id if f.object.persisted?
   = f.hidden_field :_destroy
