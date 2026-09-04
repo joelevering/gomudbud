@@ -29,6 +29,7 @@ class RoomsController < ApplicationController
     @room = Room.new(room_params.presence || NEW_ROOM_DEFAULTS)
 
     if @room.save
+      ReciprocalExitBuilder.call(@room)
       redirect_to edit_room_path(@room), notice: "Room created."
     else
       render :new, status: :unprocessable_content
@@ -38,6 +39,7 @@ class RoomsController < ApplicationController
   # PATCH/PUT /rooms/1
   def update
     if @room.update(room_params)
+      ReciprocalExitBuilder.call(@room)
       redirect_to edit_room_path(@room), notice: "Room saved."
     else
       render :edit, status: :unprocessable_content
@@ -82,7 +84,10 @@ class RoomsController < ApplicationController
 
       params.require(:room).permit(
         :name, :description,
-        exits_attributes: [ :id, :key, :description, :linked_room_id, :_destroy ],
+        exits_attributes: [
+          :id, :key, :description, :linked_room_id, :_destroy,
+          :create_reciprocal, :reciprocal_key, :reciprocal_description
+        ],
         npcs_attributes: [
           :id, :name, :description, :class_name, :level, :exp, :_destroy,
           behaviors_attributes: [
