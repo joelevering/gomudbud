@@ -1,0 +1,16 @@
+.row-card.behavior.nested-fields
+  .row-top
+    .grow
+      %span.mini-label Trigger
+      = f.select :trigger, Behavior::POSSIBLE_TRIGGERS, {}, class: "mini-input"
+    .grow
+      %span.mini-label Chance (0-1)
+      = f.number_field :chance, step: 0.1, min: 0, max: 1, class: "mini-input data"
+    .row-actions
+      %button.btn.small.danger-ghost{type: "button", data: { action: "nested-fields#remove" }} Remove
+
+  = render "nested_fields_section", form: f, association: :actions, model_class: BehaviorAction,
+    partial: "action_fields", label: "Actions", add_label: "+ Add action", wrapper_class: "npc-sub"
+
+  = f.hidden_field :id if f.object.persisted?
+  = f.hidden_field :_destroy

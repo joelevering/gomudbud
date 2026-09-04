@@ -1,19 +1,30 @@
-= form_with(model: room) do |form|
+= form_with model: room do |form|
   - if room.errors.any?
-    %div{style: "color: red"}
-      %h2= "#{pluralize(room.errors.count, "error")} prohibited this room from being saved:"
-
+    .row-card{style: "border-color: var(--danger)"}
+      %strong= "#{pluralize(room.errors.count, "error")} prohibited this room from being saved:"
       %ul
         - room.errors.each do |error|
           %li= error.full_message
 
-  %div
-    = form.label :name, style: "display: block"
-    = form.text_field :name
+  .room-head
+    %span.rid-badge= room.persisted? ? "##{room.id}" : "new"
+    = form.text_field :name, class: "room-name-input"
+  %p.room-name-hint
+    Convention: "Area - Subarea" or "Area - Path - Subarea". This drives grouping in the rail and coloring on the Map tab.
 
-  %div
-    = form.label :description, style: "display: block"
-    = form.textarea :description
+  %section.block
+    .field-label Description
+    = form.text_area :description, class: "desc"
 
-  %div
-    = form.submit
+  = render "nested_fields_section", form: form, association: :exits, model_class: Exit,
+    partial: "exit_fields", label: "Exits", add_label: "+ Add exit",
+    wrapper_class: "block", extra_controllers: "exit-target"
+
+  = render "nested_fields_section", form: form, association: :npcs, model_class: Npc,
+    partial: "npc_fields", label: "NPCs", add_label: "+ Add NPC", wrapper_class: "block"
+
+  = form.submit "Save room", class: "btn primary"
+
+- if room.persisted?
+  .danger-zone
+    = button_to "Delete this room", room, method: :delete, class: "btn small danger-ghost", form: { data: { turbo_confirm: "Delete room ##{room.id} (\"#{room.name}\")? Exits pointing to it from other rooms will be left dangling.", turbo_frame: "_top" } }

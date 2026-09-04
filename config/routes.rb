@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
   root to: "rooms#index"
 
-  resources :rooms
+  resources :rooms do
+    collection do
+      get :map
+      get :export
+    end
+  end
   resources :exits
   resources :npcs
   resources :behaviors do

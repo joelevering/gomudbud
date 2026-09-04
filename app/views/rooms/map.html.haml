@@ -1,0 +1,12 @@
+- content_for :title, "Room map"
+
+= render "header"
+
+.body-grid
+  = render "rail"
+  = turbo_frame_tag "editor-panel" do
+    %main
+      .map-wrap{data: { controller: "room-map", room_map_edit_url_template_value: edit_room_path("__ID__") }}
+-# Consumed by app/javascript/controllers/room_map_controller.js
+%script#map-data{type: "application/json"}
+  != @rooms_json.html_safe
