@@ -17,8 +17,7 @@
     = form.text_area :description, class: "desc"
 
   = render "nested_fields_section", form: form, association: :exits, model_class: Exit,
-    partial: "exit_fields", label: "Exits", add_label: "+ Add exit",
-    wrapper_class: "block", extra_controllers: "exit-target"
+    partial: "exit_fields", label: "Exits", add_label: "+ Add exit", wrapper_class: "block"
 
   = render "nested_fields_section", form: form, association: :npcs, model_class: Npc,
     partial: "npc_fields", label: "NPCs", add_label: "+ Add NPC", wrapper_class: "block"

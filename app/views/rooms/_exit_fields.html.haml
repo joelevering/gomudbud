@@ -1,8 +1,13 @@
-.row-card.exit.nested-fields
+- target_room = f.object.linked_room_id.present? ? Room.find_by(id: f.object.linked_room_id) : nil
+- initial_target_text = target_room ? "#{f.object.linked_room_id} — #{target_room.name}" : ""
+
+.row-card.exit.nested-fields{data: { controller: "exit-target" }}
   .exit-cols
     %div
-      %span.mini-label Target ID
-      = f.number_field :linked_room_id, class: "mini-input data", data: { exit_target_target: "input", action: "input->exit-target#preview" }
+      %span.mini-label Target room (name or id)
+      = f.hidden_field :linked_room_id, data: { exit_target_target: "hidden" }
+      %input.mini-input.data{type: "text", list: "room-options", value: initial_target_text,
+        data: { exit_target_target: "input", action: "input->exit-target#preview" }}
     %div
       %span.mini-label Key
       = f.text_field :key, class: "mini-input data"
@@ -12,5 +17,18 @@
     .row-actions
       %button.btn.small.danger-ghost{type: "button", data: { action: "nested-fields#remove" }} Remove
   .target-preview{data: { exit_target_target: "preview" }}
+
+  .reciprocal{data: { controller: "reciprocal-exit" }}
+    %label.reciprocal-toggle
+      = f.check_box :create_reciprocal, data: { reciprocal_exit_target: "checkbox", action: "reciprocal-exit#toggle" }
+      Also create the exit back (from the target room to here)
+    .reciprocal-fields{data: { reciprocal_exit_target: "fields" }}
+      %div
+        %span.mini-label Key (for the exit back)
+        = f.text_field :reciprocal_key, class: "mini-input data", data: { reciprocal_exit_target: "input" }
+      %div
+        %span.mini-label Description (for the exit back)
+        = f.text_field :reciprocal_description, class: "mini-input", data: { reciprocal_exit_target: "input" }
+
   = f.hidden_field :id if f.object.persisted?
   = f.hidden_field :_destroy

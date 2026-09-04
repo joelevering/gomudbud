@@ -17,7 +17,7 @@ class ExitsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create exit" do
     assert_difference("Exit.count") do
-      post exits_url, params: { exit: { description: @exit.description, key: @exit.key, linked_room_id: @exit.linked_room_id, room_id: @exit.room_id } }
+      post exits_url, params: { exit: { description: @exit.description, key: "AnotherKey", linked_room_id: @exit.linked_room_id, room_id: @exit.room_id } }
     end
 
     assert_redirected_to exit_url(Exit.last)
