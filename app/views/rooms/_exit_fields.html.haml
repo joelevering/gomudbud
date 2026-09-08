@@ -1,5 +1,5 @@
-- target_room = f.object.linked_room_id.present? ? Room.find_by(id: f.object.linked_room_id) : nil
-- initial_target_text = target_room ? "#{f.object.linked_room_id} — #{target_room.name}" : ""
+- target_name = f.object.linked_room_id.present? ? room_name_by_id[f.object.linked_room_id] : nil
+- initial_target_text = f.object.linked_room_id.blank? ? "" : "#{f.object.linked_room_id} — #{target_name || "(room not found)"}"
 
 .row-card.exit.nested-fields{data: { controller: "exit-target" }}
   .exit-cols

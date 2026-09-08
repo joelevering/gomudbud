@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_17_215541) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_08_160000) do
   create_table "behavior_actions", force: :cascade do |t|
     t.string "action"
     t.integer "behavior_id"
@@ -42,6 +42,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_17_215541) do
     t.integer "linked_room_id"
     t.integer "room_id"
     t.datetime "updated_at", null: false
+    t.index [ "room_id", "key" ], name: "index_exits_on_room_id_and_key", unique: true
   end
 
   create_table "npcs", force: :cascade do |t|

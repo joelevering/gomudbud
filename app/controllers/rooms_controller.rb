@@ -29,8 +29,7 @@ class RoomsController < ApplicationController
     @room = Room.new(room_params.presence || NEW_ROOM_DEFAULTS)
 
     if @room.save
-      ReciprocalExitBuilder.call(@room)
-      redirect_to edit_room_path(@room), notice: "Room created."
+      redirect_to edit_room_path(@room), notice: room_saved_notice("Room created.", @room)
     else
       render :new, status: :unprocessable_content
     end
@@ -39,8 +38,7 @@ class RoomsController < ApplicationController
   # PATCH/PUT /rooms/1
   def update
     if @room.update(room_params)
-      ReciprocalExitBuilder.call(@room)
-      redirect_to edit_room_path(@room), notice: "Room saved."
+      redirect_to edit_room_path(@room), notice: room_saved_notice("Room saved.", @room)
     else
       render :edit, status: :unprocessable_content
     end
@@ -77,6 +75,15 @@ class RoomsController < ApplicationController
 
     def set_rooms
       @rooms = Room.all.order(:id)
+    end
+
+    # Builds this room's reciprocal exits and folds any failures into the
+    # flash notice, so a reciprocal that couldn't save (e.g. a key clash)
+    # shows up as a message on the already-successful room save instead of
+    # raising after the fact.
+    def room_saved_notice(base_message, room)
+      errors = ReciprocalExitBuilder.call(room)
+      errors.empty? ? base_message : "#{base_message} #{errors.join(" ")}"
     end
 
     def room_params

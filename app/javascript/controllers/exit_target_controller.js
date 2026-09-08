@@ -9,11 +9,28 @@ export default class extends Controller {
 
   connect() {
     this.names = JSON.parse(document.getElementById("rooms-index-data").textContent)
-    this.resolve()
+    // Preview whatever's already in the hidden field without touching it --
+    // a dangling linked_room_id (its room got deleted) should survive as a
+    // "not found" preview, not get silently cleared out from under the room.
+    this.previewStoredId()
   }
 
   preview() {
     this.resolve()
+  }
+
+  previewStoredId() {
+    const id = this.hiddenTarget.value.trim()
+
+    if (id === "") {
+      this.setPreview("", "")
+    } else if (this.names[id] !== undefined) {
+      this.setPreview("ok", "→ " + this.names[id])
+    } else {
+      this.setPreview("bad", "Room not found (id " + id + ")")
+    }
+
+    this.inputTarget.classList.toggle("invalid", id !== "" && this.names[id] === undefined)
   }
 
   resolve() {
@@ -35,8 +52,11 @@ export default class extends Controller {
   }
 
   // Tries, in order: exact "id — name" (what the datalist offers), a bare
-  // numeric id, an exact case-insensitive name match, then an unambiguous
-  // case-insensitive name-prefix match.
+  // numeric id, an unambiguous case-insensitive exact name match, then an
+  // unambiguous case-insensitive name-prefix match. Room names aren't
+  // unique (e.g. every unrenamed new room shares NEW_ROOM_DEFAULTS' name),
+  // so both name-based branches only resolve when exactly one room matches
+  // -- otherwise this would silently guess which room the user meant.
   resolveId(typed) {
     const dashIndex = typed.indexOf(" — ")
     if (dashIndex !== -1) {
@@ -49,8 +69,8 @@ export default class extends Controller {
     const lower = typed.toLowerCase()
     const entries = Object.entries(this.names)
 
-    const exact = entries.find(([, name]) => name.toLowerCase() === lower)
-    if (exact) return exact[0]
+    const exactMatches = entries.filter(([, name]) => name.toLowerCase() === lower)
+    if (exactMatches.length === 1) return exactMatches[0][0]
 
     const prefixMatches = entries.filter(([, name]) => name.toLowerCase().startsWith(lower))
     if (prefixMatches.length === 1) return prefixMatches[0][0]
