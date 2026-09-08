@@ -1,15 +1,13 @@
 -# Shared add/remove/edit section for one has_many nested attribute.
 -# Locals:
--#   form              - the FormBuilder whose association this renders (top-level `form`, or an inner npc/behavior builder)
--#   association       - Symbol, e.g. :exits, :npcs, :behaviors, :actions, :combat_behaviors
--#   model_class       - the association's model class, used to build a blank record for the "add" <template>
--#   partial           - String, the row partial to render for each record (locals: f)
--#   label             - String field-label heading, e.g. "Exits"
--#   add_label         - String button text, e.g. "+ Add exit"
--#   wrapper_class     - "block" (top-level room sections) or "npc-sub" (nested inside an npc/behavior row)
--#   extra_controllers - optional String of additional space-separated Stimulus controllers, e.g. "exit-target"
-- controllers = [ "nested-fields", local_assigns[:extra_controllers] ].compact.join(" ")
-%div{class: wrapper_class, data: { controller: controllers }}
+-#   form          - the FormBuilder whose association this renders (top-level `form`, or an inner npc/behavior builder)
+-#   association   - Symbol, e.g. :exits, :npcs, :behaviors, :actions, :combat_behaviors
+-#   model_class   - the association's model class, used to build a blank record for the "add" <template>
+-#   partial       - String, the row partial to render for each record (locals: f)
+-#   label         - String field-label heading, e.g. "Exits"
+-#   add_label     - String button text, e.g. "+ Add exit"
+-#   wrapper_class - "block" (top-level room sections) or "npc-sub" (nested inside an npc/behavior row)
+%div{class: wrapper_class, data: { controller: "nested-fields" }}
   .field-label
     = label
     %span.count= form.object.public_send(association).size

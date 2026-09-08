@@ -23,7 +23,17 @@
   = button_to "+ Add room", rooms_path, method: :post, class: "btn", form: { data: { turbo_frame: "_top" } }
   = link_to "Export JSON", export_rooms_path, class: "btn primary"
 
--# Consumed by app/javascript/controllers/exit_target_controller.js for the
--# live exit-target-name preview in the room edit form.
+-# Consumed by app/javascript/controllers/exit_target_controller.js to resolve
+-# a typed room name/id in the exit-target field of the room edit form.
 %script#rooms-index-data{type: "application/json"}
   != @rooms.each_with_object({}) { |r, h| h[r.id] = r.name }.to_json.html_safe
+
+-# Autocomplete source for the exit-target field (see _exit_fields.html.haml).
+%datalist#room-options
+  - @rooms.each do |r|
+    %option{value: "#{r.id} — #{r.name}"}
+
+-# Autocomplete source for the NPC "Class" field (see _npc_fields.html.haml).
+%datalist#npc-class-options
+  - Npc.distinct.pluck(:class_name).compact_blank.sort.each do |class_name|
+    %option{value: class_name}

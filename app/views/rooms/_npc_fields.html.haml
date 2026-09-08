@@ -5,20 +5,20 @@
       %div.mini-input.data{style: "background:transparent;border-color:transparent;padding-left:0"}= f.object.persisted? ? "##{f.object.id}" : "new"
     %div
       %span.mini-label Class
-      = f.text_field :class_name, class: "mini-input"
+      = f.text_field :class_name, class: "mini-input", list: "npc-class-options"
     %div
       %span.mini-label Character name
       = f.text_field :name, class: "mini-input"
-  .npc-cols2
+  .npc-cols2{data: { controller: "npc-exp-suggest" }}
     %div
       %span.mini-label Description
       = f.text_field :description, class: "mini-input"
     %div
       %span.mini-label Level
-      = f.number_field :level, class: "mini-input data"
+      = f.number_field :level, class: "mini-input data", data: { npc_exp_suggest_target: "level", action: "input->npc-exp-suggest#suggest" }
     %div
       %span.mini-label Exp given
-      = f.number_field :exp, class: "mini-input data"
+      = f.number_field :exp, class: "mini-input data", data: { npc_exp_suggest_target: "exp" }
 
   = render "nested_fields_section", form: f, association: :behaviors, model_class: Behavior,
     partial: "behavior_fields", label: "Behavior", add_label: "+ Add behavior", wrapper_class: "npc-sub"
